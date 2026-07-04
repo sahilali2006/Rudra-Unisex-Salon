@@ -1,13 +1,22 @@
 import type { ReactNode } from "react";
-import { Navbar } from "./Navbar";
+import type { Page } from "../App";
 import { Footer } from "./Footer";
+import { Navbar } from "./Navbar";
 
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({
+  children,
+  currentPage,
+  onNavigate,
+}: {
+  children: ReactNode;
+  currentPage: Page;
+  onNavigate: (page: Page) => void;
+}) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <main className="flex-1 pt-20">{children}</main>
-      <Footer />
+    <div className="app-shell">
+      <Navbar currentPage={currentPage} onNavigate={onNavigate} />
+      <main>{children}</main>
+      <Footer onNavigate={onNavigate} />
     </div>
   );
 }

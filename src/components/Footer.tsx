@@ -1,51 +1,65 @@
-import { Link } from "@tanstack/react-router";
-import { Instagram, Facebook, Phone, MapPin, Clock } from "lucide-react";
-import logo from "@/assets/logo.png";
+import type { MouseEvent } from "react";
+import type { Page } from "../App";
+import logo from "../assets/logo.png";
 
-export function Footer() {
+const footerLinks: Array<{ page: Page; label: string; path: string }> = [
+  { page: "home", label: "Home", path: "/" },
+  { page: "about", label: "About", path: "/about" },
+  { page: "services", label: "Services", path: "/services" },
+  { page: "contact", label: "Contact", path: "/contact" },
+];
+
+export function Footer({ onNavigate }: { onNavigate: (page: Page) => void }) {
+  const handleNav = (event: MouseEvent<HTMLAnchorElement>, page: Page) => {
+    event.preventDefault();
+    onNavigate(page);
+  };
+
   return (
-    <footer className="border-t border-border/60 bg-card/40">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 md:px-8">
-        <div className="space-y-4">
-          <img src={logo} alt="Rudra Unisex Salon" className="h-20 w-20 rounded-full object-cover" />
-          <p className="text-sm text-muted-foreground">
-            Premium unisex grooming for the modern you. Where style meets precision.
+    <footer className="site-footer">
+      <div className="section-shell footer-grid">
+        <div>
+          <img className="footer-logo" src={logo} alt="Rudra Unisex Salon" />
+          <p>
+            Premium unisex grooming for hair, beard, color and beauty services
+            in Noida.
           </p>
         </div>
 
         <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold">Explore</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/" className="hover:text-gold">Home</Link></li>
-            <li><Link to="/about" className="hover:text-gold">About</Link></li>
-            <li><Link to="/services" className="hover:text-gold">Services</Link></li>
-            <li><Link to="/contact" className="hover:text-gold">Contact</Link></li>
+          <h3>Explore</h3>
+          <ul>
+            {footerLinks.map((link) => (
+              <li key={link.page}>
+                <a href={link.path} onClick={(event) => handleNav(event, link.page)}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold">Hours</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-gold" /> Mon–Sun: 8AM – 10PM</li>
-            {/* <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-gold" /> Sunday: 10AM – 6PM</li> */}
-          </ul>
+          <h3>Hours</h3>
+          <p>Monday to Sunday</p>
+          <p>8:00 AM to 10:00 PM</p>
         </div>
 
         <div>
-          <h4 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold">Contact</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-gold" /> +91 8172931277</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-gold" /> Sec 104, Hajipur Gali no 3, Noida</li>
-          </ul>
-          <div className="mt-4 flex gap-3">
-            <a href="https://www.instagram.com/sharmamukesh6758" className="rounded-full border border-border p-2 text-muted-foreground hover:border-gold hover:text-gold"><Instagram className="h-4 w-4" /></a>
-            <a href="#" className="rounded-full border border-border p-2 text-muted-foreground hover:border-gold hover:text-gold"><Facebook className="h-4 w-4" /></a>
-
-          </div>
+          <h3>Contact</h3>
+          <p>
+            <a href="tel:+918172931277">+91 81729 31277</a>
+          </p>
+          <p>Sector 104, Hajipur Gali No. 3, Noida</p>
+          <p>
+            <a href="https://www.instagram.com/sharmamukesh6758">
+              Instagram
+            </a>
+          </p>
         </div>
       </div>
-      <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Rudra Unisex Salon. All rights reserved.
+      <div className="footer-bottom">
+        Copyright {new Date().getFullYear()} Rudra Unisex Salon. All rights reserved.
       </div>
     </footer>
   );
